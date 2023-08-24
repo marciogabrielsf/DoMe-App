@@ -1,20 +1,43 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import Routes from "@/routes";
+import Home from "@/screens/home";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
+import { useCallback } from "react";
+import { ThemeProvider } from "styled-components/native";
+import theme from "@/themes/theme";
+import { AuthProvider } from "@/contexts/auth";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import "react-native-reanimated";
+import "react-native-gesture-handler";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+	const [fontsLoaded] = useFonts({
+		"NunitoSans-Black": require("./assets/fonts/NunitoSans-Black.ttf"),
+		"NunitoSans-Bold": require("./assets/fonts/NunitoSans-Bold.ttf"),
+		"NunitoSans-ExtraBold": require("./assets/fonts/NunitoSans-ExtraBold.ttf"),
+		"NunitoSans-ExtraLight": require("./assets/fonts/NunitoSans-ExtraLight.ttf"),
+		"NunitoSans-Light": require("./assets/fonts/NunitoSans-Light.ttf"),
+		"NunitoSans-Regular": require("./assets/fonts/NunitoSans-Regular.ttf"),
+		"NunitoSans-SemiBold": require("./assets/fonts/NunitoSans-SemiBold.ttf"),
+	});
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+	const onLayoutRootView = useCallback(async () => {
+		if (fontsLoaded) {
+			await SplashScreen.hideAsync();
+		}
+	}, [fontsLoaded]);
+
+	if (!fontsLoaded) {
+		return null;
+	}
+
+	return (
+		<AuthProvider>
+			<SafeAreaProvider>
+				<ThemeProvider theme={theme}>
+					<Routes />
+				</ThemeProvider>
+			</SafeAreaProvider>
+		</AuthProvider>
+	);
+}
