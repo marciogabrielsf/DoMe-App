@@ -18,12 +18,13 @@ export const Container = styled(LinearGradient as any).attrs(({ theme }) => ({
 	start: { x: 0, y: 1 },
 	end: { x: 0, y: 0 },
 }))`
+	background-color: #000;
 	height: 110px;
 	width: 100%;
 	border-radius: 10px;
+	box-shadow: ${Platform.OS === "ios" ? "0px 10px 20px rgba(0, 0, 0, 0.8)" : "none"};
 	padding: 20px;
 	elevation: 20;
-	border: 1px solid rgba(255, 255, 255, 0.1);
-	box-shadow: ${Platform.OS === "ios" ? "0px 2px 8px rgba(0, 0, 0, 0.2)" : "none"};
+	border: 1px solid rgba(255, 255, 255, 0.2);
 	margin-bottom: 20px;
 `;

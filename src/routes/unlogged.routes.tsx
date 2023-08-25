@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import React from "react";
-import Home from "@/screens/home";
+import Home from "@/screens/app/home";
 import { createStackNavigator } from "@react-navigation/stack";
 import Init from "@/screens/init";
 

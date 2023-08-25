@@ -1,25 +1,59 @@
-import { View, Text } from "react-native";
+import { View, Text, Platform } from "react-native";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Home from "@/screens/home";
+import Home from "@/screens/app/home";
 import Init from "@/screens/init";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import TabBarCustomButton from "@/components/TabBar/TabBarButton";
 import { AnimatedTabBar } from "@/components/TabBar";
 import { BlurView } from "expo-blur";
+import { createStackNavigator } from "@react-navigation/stack";
+import AddPage from "@/screens/app/add";
+import { useNavigation } from "@react-navigation/native";
 
 const BottomTab = createBottomTabNavigator();
+const StackNavigator = createStackNavigator();
 
 export default function AppRoutes() {
-	const safeArea = useSafeAreaInsets();
+	return (
+		<StackNavigator.Navigator>
+			<StackNavigator.Screen
+				options={{
+					headerShown: false,
+				}}
+				name="default"
+				component={AppBottomNavigator}
+			/>
+			<StackNavigator.Screen
+				options={{
+					headerShown: true,
+					headerTransparent: true,
+					headerBackTitle: "Voltar",
+					headerTitle: "Adicionar Despesa",
+					headerTitleStyle: {
+						fontFamily: "NunitoSans-Regular",
+						color: "#fff",
+					},
 
+					headerTintColor: Platform.OS === "ios" ? "#007AFF" : "#FFF",
+					headerBackground: () => <BlurView style={{ flex: 1 }} intensity={60} tint="dark" />,
+				}}
+				name="addPage"
+				component={AddPage}
+			/>
+		</StackNavigator.Navigator>
+	);
+}
+
+function AppBottomNavigator() {
+	const safeArea = useSafeAreaInsets();
 	return (
 		<BottomTab.Navigator
 			screenOptions={{
 				tabBarBackground: () => (
 					<BlurView
-						intensity={50}
+						intensity={60}
 						tint="dark"
 						style={{
 							flex: 1,
@@ -57,21 +91,24 @@ export default function AppRoutes() {
 			<BottomTab.Screen
 				name="add"
 				component={Home}
-				options={{
-					headerShown: false,
-					title: "Adicionar",
-					tabBarButton: (props) => (
-						<TabBarCustomButton
-							{...props}
-							label="Adicionar"
-							type="FontAwesome5"
-							unfocusedIcon="plus"
-							focusedIcon="plus"
-						/>
-					),
+				options={({ navigation }) => {
+					return {
+						headerShown: false,
+						title: "Adicionar",
+						tabBarButton: (props) => (
+							<TabBarCustomButton
+								{...props}
+								onPress={() => navigation.navigate("addPage")}
+								label="Adicionar"
+								type="FontAwesome5"
+								unfocusedIcon="plus"
+								focusedIcon="plus"
+							/>
+						),
+					};
 				}}
 			/>
-			<BottomTab.Screen
+			{/* <BottomTab.Screen
 				name="Settings"
 				component={Init}
 				options={{
@@ -87,7 +124,7 @@ export default function AppRoutes() {
 						/>
 					),
 				}}
-			/>
+			/> */}
 		</BottomTab.Navigator>
 	);
 }

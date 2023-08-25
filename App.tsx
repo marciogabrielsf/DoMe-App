@@ -1,5 +1,5 @@
 import Routes from "@/routes";
-import Home from "@/screens/home";
+import Home from "@/screens/app/home";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback } from "react";

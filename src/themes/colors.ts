@@ -5,7 +5,11 @@ const colors = {
 	},
 	purple: {
 		200: "#220B5E",
-		300: "381483",
+		300: "#381483",
+	},
+	gray: {
+		200: "#202020",
+		400: "#404040",
 	},
 	glassTransparency: 0.1,
 	textColor: {

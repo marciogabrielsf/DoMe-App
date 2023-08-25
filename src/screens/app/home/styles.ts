@@ -1,9 +1,21 @@
+import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styled, { DefaultTheme } from "styled-components/native";
 
-export const Container = styled.ScrollView`
+export const Background = styled(LinearGradient as any).attrs(({ theme }: DefaultTheme) => ({
+	colors: theme.colors.gradient.background,
+	start: { x: 0, y: 0 },
+	end: { x: 1, y: 1 },
+}))`
 	flex: 1;
-	background-color: ${({ theme }: DefaultTheme) => theme.colors.purple[200]};
+`;
+
+export const Container = styled.ScrollView.attrs(() => ({
+	contentContainerStyle: {
+		paddingBottom: 100,
+	},
+}))`
+	flex: 1;
 `;
 
 export const SafeArea = styled(SafeAreaView)`
