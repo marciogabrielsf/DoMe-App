@@ -9,6 +9,8 @@ import {
 } from "./styles";
 import BalanceContainer from "../components/BalanceContainer";
 import LastAddedContainer from "../components/LastAddedContainer";
+import { TouchableOpacity } from "react-native";
+import * as AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Home() {
 	return (
@@ -20,7 +22,9 @@ export default function Home() {
 						placeholderTextColor={"#FFFFFF40"}
 						placeholder="Pesquisar por Transações..."
 					/>
-					<BalanceContainer label="Ganhos este mês" balance={144050} />
+					<TouchableOpacity onPress={() => AsyncStorage.default.clear()}>
+						<BalanceContainer label="Ganhos este mês" balance={144050} />
+					</TouchableOpacity>
 					<BalanceContainer label="Gastos este mês" balance={-13025} />
 
 					<LastAddedLabel>Últimos gastos</LastAddedLabel>
