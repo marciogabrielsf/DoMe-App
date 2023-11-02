@@ -1,5 +1,5 @@
 import { View, Text, KeyboardAvoidingView, ScrollView } from "react-native";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import {
 	Background,
 	BottomTextBoxView,
@@ -15,7 +15,9 @@ import {
 import Message from "./components/message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
-interface Messages {
+import { useMutation } from "react-query";
+import { useMessage } from "@/hooks/useMessage";
+interface Message {
 	id: number;
 	text: string;
 	date: Date;
@@ -24,29 +26,33 @@ interface Messages {
 
 export default function AddPage() {
 	const [text, setText] = React.useState("");
-	const [messages, setMessages] = React.useState<Messages[]>([]);
+	const [messages, setMessages] = React.useState<Message[]>([]);
 
-	useEffect(() => {
-		async function getAsyncStorageItems() {
-			const response = await AsyncStorage.getItem("messages");
-			if (response) {
-				setMessages(JSON.parse(response || "[]"));
-			}
-		}
-		getAsyncStorageItems();
-	}, []);
+	const { data, isLoading, mutateAsync } = useMessage();
 
-	const sendMessage = () => {
+	const sendMessage = async () => {
 		if (text.length > 0) {
-			const newMessage = {
-				id: messages.length + 1,
-				text: text,
-				date: new Date(),
-				fromDome: false,
-			};
-			setMessages([...messages, newMessage]);
-			setText("");
-			AsyncStorage.setItem("messages", JSON.stringify([...messages, newMessage]));
+			try {
+				const newMessage = {
+					id: messages.length + 1,
+					text: text,
+					date: new Date(),
+					fromDome: false,
+				};
+				const temp = [...messages, newMessage];
+				setMessages(temp);
+				setText("");
+				const response = (await mutateAsync({ message: text })).message;
+				const newMessageDome = {
+					id: temp.length + 1,
+					text: response,
+					date: new Date(),
+					fromDome: true,
+				};
+				setMessages([...temp, newMessageDome]);
+			} catch (err) {
+				alert(err);
+			}
 		}
 	};
 
