@@ -29,3 +29,9 @@ export const MessageText = styled.Text`
 	color: ${({ theme }: DefaultTheme) => theme.colors.textColor.inverted};
 	font-family: ${({ theme }: DefaultTheme) => theme.fonts.nunitoSans.regular};
 `;
+
+export const HourDate = styled.Text`
+	font-size: 10px;
+	align-self: flex-end;
+	color: #999999;
+`;

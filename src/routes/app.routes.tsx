@@ -98,7 +98,7 @@ function AppBottomNavigator() {
 						tabBarButton: (props) => (
 							<TabBarCustomButton
 								{...props}
-								onPress={() => navigation.navigate("addPage")}
+								onPress={() => navigation.push("addPage")}
 								label="Adicionar"
 								type="FontAwesome5"
 								unfocusedIcon="plus"

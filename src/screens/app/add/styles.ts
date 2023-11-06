@@ -7,6 +7,10 @@ import { BlurView } from "expo-blur";
 import { MotiView } from "moti";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
+export const SafeArea = styled.SafeAreaView`
+	flex: 1;
+`;
+
 export const Background = styled(LinearGradient as any).attrs(({ theme }: DefaultTheme) => ({
 	colors: theme.colors.gradient.background,
 	start: { x: 0, y: 0 },
@@ -28,9 +32,7 @@ export const Title = styled.Text`
 `;
 
 export const ContentView = styled.ScrollView.attrs({
-	contentInsetAdjustmentBehavior: "automatic",
 	contentContainerStyle: {
-		paddingTop: 100,
 		padding: 10,
 		flexDirection: "column-reverse",
 	},
@@ -47,7 +49,6 @@ export const BottomTextBoxView = styled(BlurView).attrs(({ theme }: DefaultTheme
 	tint: "dark",
 }))`
 	padding: 15px 20px 25px 20px;
-	gap: 10px;
 	border-radius: 10px 10px 0 0;
 
 	align-items: center;
@@ -90,8 +91,18 @@ export const SendButtonIcon = styled(Ionicons as any).attrs(({ theme }: DefaultT
 
 export const TouchableButton = styled.TouchableOpacity``;
 
-export const SendButtonView = styled.View`
+interface ButtonProps {
+	isLoading?: boolean;
+}
+
+export const SendButtonView = styled.View<ButtonProps>`
 	background-color: ${({ theme }: DefaultTheme) => theme.colors.purple[400]};
 	border-radius: 999px;
 	padding: 10px;
+
+	${({ isLoading }: ButtonProps) =>
+		isLoading &&
+		`
+		background-color: #202020;
+	`}
 `;

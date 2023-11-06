@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import React from "react";
-import { MessageText, MessageView } from "./styles";
+import { HourDate, MessageText, MessageView } from "./styles";
 
 interface MessageProps {
 	text: string;
@@ -9,6 +9,15 @@ interface MessageProps {
 }
 
 export default function Message({ text, date, fromDome }: MessageProps) {
+	const newMessageDate = new Date(date);
+
+	const messageDate = newMessageDate.toLocaleTimeString("pt-BR", {
+		hour: "2-digit",
+		minute: "2-digit",
+	});
+
+	const parsedText = text.replace(/(<([^>]+)>)/gi, "");
+
 	return (
 		<MessageView
 			from={{
@@ -25,7 +34,8 @@ export default function Message({ text, date, fromDome }: MessageProps) {
 			}}
 			fromDome={fromDome}
 		>
-			<MessageText>{text}</MessageText>
+			<MessageText>{parsedText}</MessageText>
+			<HourDate>{messageDate}</HourDate>
 		</MessageView>
 	);
 }

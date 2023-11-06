@@ -6,6 +6,11 @@ interface IResponse {
 }
 
 export async function sendMessage(message): Promise<IResponse> {
-	const response = await api.post("/messages", message);
-	return response.data;
+	try {
+		console.log(message);
+		const response = await api.post("/message", { message });
+		return response.data;
+	} catch (err) {
+		console.log(err);
+	}
 }
