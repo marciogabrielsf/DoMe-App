@@ -1,11 +1,10 @@
 import { LinearGradient } from "expo-linear-gradient";
-import { SafeAreaView } from "react-native-safe-area-context";
 import styled, { DefaultTheme } from "styled-components/native";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
-import { Platform } from "react-native";
 import { BlurView } from "expo-blur";
-import { MotiView } from "moti";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Platform, FlatList } from "react-native";
+import { Message } from ".";
 
 export const SafeArea = styled.SafeAreaView`
 	flex: 1;
@@ -20,10 +19,8 @@ export const Background = styled(LinearGradient as any).attrs(({ theme }: Defaul
 `;
 
 export const KeyboardAvoid = styled.KeyboardAvoidingView.attrs({
-	behavior: Platform.OS === "ios" ? "padding" : "height",
-})`
-	flex: 1;
-`;
+	behavior: Platform.OS === "ios" ? "position" : null,
+})``;
 
 export const Title = styled.Text`
 	font-size: 22px;
@@ -31,46 +28,47 @@ export const Title = styled.Text`
 	font-family: ${({ theme }: DefaultTheme) => theme.fonts.nunitoSans.regular};
 `;
 
-export const ContentView = styled.ScrollView.attrs({
-	contentContainerStyle: {
-		padding: 10,
-		flexDirection: "column-reverse",
-	},
-})`
-	flex: 1;
-`;
+export const MessageContainer = styled.FlatList.attrs({
+	automaticallyAdjustKeyboardInsets: true,
+	automaticallyAdjustContentInsets: true,
+	showsVerticalScrollIndicator: false,
+})`` as unknown as typeof FlatList;
 
-export const MessageContainer = styled.View`
-	flex: 1;
+export const MessageView = styled.View`
+	width: 100%;
+	overflow: hidden;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	border-top-right-radius: 15px;
+	border-top-left-radius: 15px;
 `;
 
 export const BottomTextBoxView = styled(BlurView).attrs(({ theme }: DefaultTheme) => ({
 	intensity: 100,
 	tint: "dark",
 }))`
-	padding: 15px 20px 25px 20px;
-	border-radius: 10px 10px 0 0;
-
+	padding: 15px 20px 20px 20px;
 	align-items: center;
 	flex-direction: row;
-	background-color: transparent;
 `;
 
 export const TextBox = styled.TextInput.attrs(({ theme }: DefaultTheme) => ({
 	placeholderTextColor: "#808080",
 	selectionColor: theme.colors.textColor.inverted,
-	placeholder: "Digite aqui...",
-	spellCheck: false,
-	autoCorrect: false,
-	multiline: false,
+	placeholder: "Type Here...",
+	spellCheck: true,
+	multiline: true,
+	autoCorrect: true,
 }))`
 	padding: 10px;
 	flex: 1;
 	color: #fff;
 	font-family: ${({ theme }: DefaultTheme) => theme.fonts.nunitoSans.regular};
 	border-radius: 20px;
-	font-size: 18px;
-	background-color: ${({ theme }: DefaultTheme) => theme.colors.gray[400]};
+	font-size: 16px;
+	border: solid 0.5px ${({ theme }: DefaultTheme) => theme.colors.gray[400]};
+	background-color: ${({ theme }: DefaultTheme) => theme.colors.gray[200]};
 `;
 
 export const MicrophoneBarIcon = styled(MaterialCommunityIcons as any).attrs(

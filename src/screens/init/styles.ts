@@ -16,7 +16,7 @@ export const Container = styled(LinearGradient as any).attrs(({ theme }: Default
 export const SafeArea = styled(SafeAreaView)`
 	flex: 1;
 	justify-content: space-between;
-	padding: 10px;
+	padding: 20px;
 	z-index: 100;
 `;
 

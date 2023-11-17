@@ -28,8 +28,8 @@ export default function Init() {
 					<SubTextLine />
 				</Header>
 				<Footer {...animations.footer}>
-					<FooterText>Cuide das suas finanças com o poder da sua voz.</FooterText>
-					<PrimaryButton onPress={handleLogin}>Continuar</PrimaryButton>
+					<FooterText>Take Care of your Finances with the power of your voice.</FooterText>
+					<PrimaryButton onPress={handleLogin}>Continue</PrimaryButton>
 				</Footer>
 			</SafeArea>
 			<BackgroundVector />

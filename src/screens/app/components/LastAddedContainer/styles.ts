@@ -25,9 +25,7 @@ export const Container = styled.View`
 	border-radius: 10px;
 	padding: 15px;
 	elevation: 5;
-	border: 2px solid rgba(255, 255, 255, 0.2);
-	box-shadow: ${Platform.OS === "ios" ? "0px 2px 8px rgba(0, 0, 0, 0.2)" : "none"};
-	margin-bottom: 15px;
+	border: 1px solid rgba(255, 255, 255, 0.2);
 `;
 
 export const DateAdded = styled.Text`

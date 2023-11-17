@@ -8,23 +8,44 @@ export const Label = styled.Text`
 	color: ${({ theme }) => theme.colors.textColor.inverted};
 `;
 
-export const Balance = styled.Text`
-	font-size: 18px;
+export const CategoryText = styled.Text`
+	font-size: 16px;
+	color: ${({ theme }) => theme.colors.textColor.gray[900]};
 	font-family: ${({ theme }) => theme.fonts.nunitoSans.regular};
 `;
 
-export const Container = styled(LinearGradient as any).attrs(({ theme }) => ({
-	colors: theme.colors.gradient.primary,
-	start: { x: 0, y: 1 },
-	end: { x: 0, y: 0 },
-}))`
-	background-color: #000;
-	height: 110px;
+export const SubTitle = styled.Text`
+	font-size: 16px;
+	color: ${({ theme }) => theme.colors.textColor.inverted};
+	opacity: 0.5;
+	font-family: ${({ theme }) => theme.fonts.nunitoSans.regular};
+`;
+
+export const TitleContainer = styled.View`
+	flex-direction: row;
+	justify-content: space-between;
+`;
+
+export const Divider = styled.View`
+	width: 100%;
+	height: 1px;
+	border-radius: 999px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	background-color: #fff;
+`;
+
+export const LabelContainer = styled.View`
+	flex-direction: row;
+	gap: 6px;
+	align-items: center;
+`;
+
+export const Container = styled.View`
+	background-color: ${({ theme }) => theme.colors.purple[400]};
 	width: 100%;
 	border-radius: 10px;
-	box-shadow: ${Platform.OS === "ios" ? "0px 10px 20px rgba(0, 0, 0, 0.8)" : "none"};
+	box-shadow: ${Platform.OS === "ios" ? "0px 5px 10px rgba(0, 0, 0, 0.15)" : "none"};
 	padding: 20px;
-	elevation: 20;
-	border: 1px solid rgba(255, 255, 255, 0.2);
-	margin-bottom: 20px;
+	elevation: 10;
 `;

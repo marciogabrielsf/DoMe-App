@@ -11,13 +11,17 @@ interface BalanceContainerProps {
 export default function LastAddedContainer({ type, date, balance }: BalanceContainerProps) {
 	const balanceColor = balance > 0 ? "#00FF00" : "#FF0000";
 
+	const balanceString = balance.toLocaleString("pt-BR", {
+		style: "currency",
+		currency: "BRL",
+	});
 	return (
 		<Container>
 			<LastAddedInfoView>
 				<Label>{type}</Label>
 				<DateAdded>{date}</DateAdded>
 			</LastAddedInfoView>
-			<Balance style={{ color: balanceColor }}>{balance}</Balance>
+			<Balance style={{ color: balanceColor }}>{balanceString}</Balance>
 		</Container>
 	);
 }

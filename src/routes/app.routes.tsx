@@ -2,15 +2,11 @@ import { View, Text, Platform } from "react-native";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from "@/screens/app/home";
-import Init from "@/screens/init";
-import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import TabBarCustomButton from "@/components/TabBar/TabBarButton";
-import { AnimatedTabBar } from "@/components/TabBar";
 import { BlurView } from "expo-blur";
 import { createStackNavigator } from "@react-navigation/stack";
 import AddPage from "@/screens/app/add";
-import { useNavigation } from "@react-navigation/native";
 
 const BottomTab = createBottomTabNavigator();
 const StackNavigator = createStackNavigator();
@@ -27,10 +23,11 @@ export default function AppRoutes() {
 			/>
 			<StackNavigator.Screen
 				options={{
+					presentation: Platform.OS === "ios" ? "card" : "transparentModal",
 					headerShown: true,
 					headerTransparent: true,
 					headerBackTitle: "Voltar",
-					headerTitle: "Adicionar Despesa",
+					headerTitle: "Add",
 					headerTitleStyle: {
 						fontFamily: "NunitoSans-Regular",
 						color: "#fff",
@@ -94,15 +91,16 @@ function AppBottomNavigator() {
 				options={({ navigation }) => {
 					return {
 						headerShown: false,
+
 						title: "Adicionar",
 						tabBarButton: (props) => (
 							<TabBarCustomButton
 								{...props}
 								onPress={() => navigation.push("addPage")}
-								label="Adicionar"
-								type="FontAwesome5"
-								unfocusedIcon="plus"
-								focusedIcon="plus"
+								label="Talk"
+								type="Ionicons"
+								unfocusedIcon="chatbubble-ellipses-outline"
+								focusedIcon="chatbubble"
 							/>
 						),
 					};

@@ -1,13 +1,12 @@
-import { View, Text, KeyboardAvoidingView, ScrollView, ActivityIndicator } from "react-native";
-import React, { useCallback, useEffect } from "react";
+import { View, Text, FlatList, ScrollView, ActivityIndicator } from "react-native";
+import React, { useCallback, useEffect, useRef } from "react";
 import {
 	Background,
 	BottomTextBoxView,
-	ContentView,
 	KeyboardAvoid,
 	MessageContainer,
+	MessageView,
 	MicrophoneBarIcon,
-	SafeArea,
 	SendButtonIcon,
 	SendButtonView,
 	TextBox,
@@ -16,11 +15,11 @@ import {
 import Message from "./components/message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
-import { useMutation } from "react-query";
 import { useMessage } from "@/hooks/useMessage";
 import * as Haptics from "expo-haptics";
+import { useHeaderHeight } from "@react-navigation/elements";
 
-interface Message {
+export interface Message {
 	id: number;
 	text: string;
 	date: Date;
@@ -31,7 +30,9 @@ export default function AddPage() {
 	const [text, setText] = React.useState("");
 	const [messages, setMessages] = React.useState<Message[]>([]);
 
-	const insets = useSafeAreaInsets();
+	let insets = useSafeAreaInsets();
+
+	const headerHeight = useHeaderHeight();
 	const { isLoading, mutateAsync } = useMessage();
 
 	useEffect(() => {
@@ -72,47 +73,54 @@ export default function AddPage() {
 				};
 				setMessages([...temp, newMessageDome]);
 			} catch (err) {
-				alert(err);
+				// alert(err);
 			}
 		}
 	};
 
+	const FlatListRef = useRef<FlatList>();
+
+	const scrollToBottom = () => {
+		FlatListRef.current?.scrollToIndex({ index: messages.length - 1, animated: true });
+		// FlatListRef.current?.scrollToEnd({ animated: true });
+	};
+
 	return (
 		<Background>
+			<MessageContainer
+				ref={FlatListRef}
+				onContentSizeChange={() => {
+					if (messages.length > 0) {
+						scrollToBottom();
+					}
+				}}
+				onScrollToIndexFailed={() => {}}
+				contentContainerStyle={{
+					paddingTop: headerHeight,
+					paddingBottom: insets.bottom + 80,
+					paddingHorizontal: 10,
+				}}
+				data={messages}
+				keyExtractor={(item) => String(item.id)}
+				renderItem={({ item }) => (
+					<Message text={item.text} date={item.date} fromDome={item.fromDome} />
+				)}
+			/>
+			<View style={{ height: 100, backgroundColor: "red" }} />
 			<KeyboardAvoid>
-				<ContentView
-					ref={(ref) => {
-						this.scrollView = ref;
-					}}
-					onContentSizeChange={() => this.scrollView.scrollToEnd({ animated: true })}
-				>
-					<MessageContainer
-						style={{
-							paddingTop: insets.top + 50,
-						}}
-					>
-						{messages.map((message) => (
-							<Message
-								key={message.id}
-								text={message.text}
-								date={message.date}
-								fromDome={message.fromDome}
-							/>
-						))}
-					</MessageContainer>
-				</ContentView>
-
-				<BottomTextBoxView>
-					<TextBox value={text} onChangeText={setText} />
-					<TouchableButton>
-						<MicrophoneBarIcon />
-					</TouchableButton>
-					<TouchableButton onPress={sendMessage} disabled={isLoading}>
-						<SendButtonView isLoading={isLoading}>
-							{isLoading ? <ActivityIndicator color="white" /> : <SendButtonIcon />}
-						</SendButtonView>
-					</TouchableButton>
-				</BottomTextBoxView>
+				<MessageView>
+					<BottomTextBoxView>
+						<TextBox value={text} onChangeText={setText} />
+						<TouchableButton>
+							<MicrophoneBarIcon />
+						</TouchableButton>
+						<TouchableButton onPress={sendMessage} disabled={isLoading}>
+							<SendButtonView isLoading={isLoading}>
+								{isLoading ? <ActivityIndicator color="white" /> : <SendButtonIcon />}
+							</SendButtonView>
+						</TouchableButton>
+					</BottomTextBoxView>
+				</MessageView>
 			</KeyboardAvoid>
 		</Background>
 	);
