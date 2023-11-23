@@ -8,7 +8,7 @@ interface BalanceContainerProps {
 	balance: number;
 }
 
-export default function LastAddedContainer({ type, date, balance }: BalanceContainerProps) {
+function LastAddedContainer({ type, date, balance }: BalanceContainerProps) {
 	const balanceColor = balance > 0 ? "#00FF00" : "#FF0000";
 
 	const balanceString = balance.toLocaleString("pt-BR", {
@@ -25,3 +25,5 @@ export default function LastAddedContainer({ type, date, balance }: BalanceConta
 		</Container>
 	);
 }
+
+export default React.memo(LastAddedContainer);

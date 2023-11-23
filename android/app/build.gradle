@@ -81,9 +81,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace 'com.marciogabrielsf.DoMe'
+    namespace 'com.marciogabrielsf.dome'
     defaultConfig {
-        applicationId 'com.marciogabrielsf.DoMe'
+        applicationId 'com.marciogabrielsf.dome'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

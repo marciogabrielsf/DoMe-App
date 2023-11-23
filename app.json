@@ -16,7 +16,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.marciogabrielsf.DoMe"
+      "bundleIdentifier": "com.marciogabrielsf.dome"
     },
     "android": {
       "adaptiveIcon": {
@@ -24,13 +24,22 @@
         "backgroundColor": "#ffffff"
       },
       "softwareKeyboardLayoutMode": "pan",
-      "package": "com.marciogabrielsf.DoMe"
+      "package": "com.marciogabrielsf.dome"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "experiments": {
       "tsconfigPaths": true
-    }
+    },
+    "plugins": [
+      [
+      "expo-build-properties", {
+        "ios": {
+          "flipper": true
+        }
+      }
+    ]
+    ]
   }
 }

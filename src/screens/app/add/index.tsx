@@ -1,4 +1,4 @@
-import { View, Text, FlatList, ScrollView, ActivityIndicator } from "react-native";
+import { FlatList, ActivityIndicator } from "react-native";
 import React, { useCallback, useEffect, useRef } from "react";
 import {
 	Background,
@@ -18,7 +18,6 @@ import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context"
 import { useMessage } from "@/hooks/useMessage";
 import * as Haptics from "expo-haptics";
 import { useHeaderHeight } from "@react-navigation/elements";
-
 export interface Message {
 	id: number;
 	text: string;
@@ -60,7 +59,7 @@ export default function AddPage() {
 					date: new Date(),
 					fromDome: false,
 				};
-				const temp = [...messages, newMessage];
+				const temp = [newMessage, ...messages];
 				setMessages(temp);
 				setText("");
 				const response = (await mutateAsync({ message: text })).message;
@@ -71,7 +70,7 @@ export default function AddPage() {
 					date: new Date(),
 					fromDome: true,
 				};
-				setMessages([...temp, newMessageDome]);
+				setMessages([newMessageDome, ...temp]);
 			} catch (err) {
 				// alert(err);
 			}
@@ -80,20 +79,15 @@ export default function AddPage() {
 
 	const FlatListRef = useRef<FlatList>();
 
-	const scrollToBottom = () => {
-		FlatListRef.current?.scrollToIndex({ index: messages.length - 1, animated: true });
-		// FlatListRef.current?.scrollToEnd({ animated: true });
-	};
+	const renderItem = useCallback(({ item }) => {
+		return <Message text={item.text} date={item.date} fromDome={item.fromDome} />;
+	}, []);
 
 	return (
 		<Background>
 			<MessageContainer
+				inverted
 				ref={FlatListRef}
-				onContentSizeChange={() => {
-					if (messages.length > 0) {
-						scrollToBottom();
-					}
-				}}
 				onScrollToIndexFailed={() => {}}
 				contentContainerStyle={{
 					paddingTop: headerHeight,
@@ -101,12 +95,12 @@ export default function AddPage() {
 					paddingHorizontal: 10,
 				}}
 				data={messages}
+				initialNumToRender={10}
 				keyExtractor={(item) => String(item.id)}
-				renderItem={({ item }) => (
-					<Message text={item.text} date={item.date} fromDome={item.fromDome} />
-				)}
+				renderItem={renderItem}
+				windowSize={11}
+				removeClippedSubviews={true}
 			/>
-			<View style={{ height: 100, backgroundColor: "red" }} />
 			<KeyboardAvoid>
 				<MessageView>
 					<BottomTextBoxView>

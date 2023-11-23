@@ -8,7 +8,7 @@ interface MessageProps {
 	fromDome?: boolean;
 }
 
-export default function Message({ text, date, fromDome }: MessageProps) {
+function Message({ text, date, fromDome }: MessageProps) {
 	const newMessageDate = new Date(date);
 
 	const messageDate = newMessageDate.toLocaleTimeString("pt-BR", {
@@ -17,7 +17,6 @@ export default function Message({ text, date, fromDome }: MessageProps) {
 	});
 
 	const parsedText = text.replace(/(<([^>]+)>)/gi, "");
-
 	return (
 		<MessageView
 			from={{
@@ -39,3 +38,5 @@ export default function Message({ text, date, fromDome }: MessageProps) {
 		</MessageView>
 	);
 }
+
+export default React.memo(Message);
