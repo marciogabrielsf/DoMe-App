@@ -9,6 +9,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import "react-native-reanimated";
 import "react-native-gesture-handler";
 import ReactQueryProvider from "@/contexts/ReactQueryProvider";
+import { ConversationProvider } from "@/contexts/conversation";
 
 export default function App() {
 	const [fontsLoaded] = useFonts({
@@ -34,11 +35,13 @@ export default function App() {
 	return (
 		<AuthProvider>
 			<ReactQueryProvider>
-				<SafeAreaProvider>
-					<ThemeProvider theme={theme}>
-						<Routes />
-					</ThemeProvider>
-				</SafeAreaProvider>
+				<ConversationProvider>
+					<SafeAreaProvider>
+						<ThemeProvider theme={theme}>
+							<Routes />
+						</ThemeProvider>
+					</SafeAreaProvider>
+				</ConversationProvider>
 			</ReactQueryProvider>
 		</AuthProvider>
 	);
