@@ -4,11 +4,9 @@ import {
 	Container,
 	FindTransactionsInput,
 	Greetings,
-	LastAddedLabel,
 	SafeArea,
 } from "./styles";
 import BalanceContainer from "../components/BalanceContainer";
-import LastAddedContainer from "../components/LastAddedContainer";
 import { TouchableOpacity } from "react-native";
 import * as AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Haptics from "expo-haptics";
@@ -36,12 +34,12 @@ export default function Home() {
 						<BalanceContainer label="Ganhos este mês" balance={144050} />
 					</TouchableOpacity>
 
-					<LastAddedLabel>Last Transactions</LastAddedLabel>
+					{/* <LastAddedLabel>Last Transactions</LastAddedLabel>
 
 					<LastAddedContainer type="Market" date="Today at 23:24" balance={548} />
 					<LastAddedContainer type="Mechanic" date="Today at 23:24" balance={-6412} />
 					<LastAddedContainer type="Car Parts" date="Today at 23:24" balance={-125} />
-					<LastAddedContainer type="Market" date="Today at 23:24" balance={-16} />
+					<LastAddedContainer type="Market" date="Today at 23:24" balance={-16} /> */}
 				</SafeArea>
 			</Container>
 		</Background>

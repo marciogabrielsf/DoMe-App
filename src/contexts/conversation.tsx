@@ -1,4 +1,5 @@
 import { useMessage } from "@/hooks/useMessage";
+import { IUserData } from "@/services/messages.service";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -25,6 +26,8 @@ type ConversationProviderProps = {
 
 export const ConversationProvider = ({ children }: ConversationProviderProps) => {
 	const [messages, setMessages] = useState<Message[]>([]);
+	const [userData, setUserData] = useState<IUserData>({ chat_id: 12345 } as IUserData);
+
 	const [isLoading, setIsLoading] = useState(false);
 	const { mutateAsync } = useMessage();
 
@@ -44,6 +47,8 @@ export const ConversationProvider = ({ children }: ConversationProviderProps) =>
 		AsyncStorage.setItem("messages", JSON.stringify(messages));
 	}, [messages]);
 
+	console.log(userData);
+
 	const sendMessage = async (text: string) => {
 		try {
 			setIsLoading(true);
@@ -57,17 +62,19 @@ export const ConversationProvider = ({ children }: ConversationProviderProps) =>
 			const temp = [newMessage, ...messages];
 			setMessages(temp);
 
-			const response = (await mutateAsync({ message: text })).message;
+			const response = await mutateAsync({ message: text, user_data: userData });
+
 			const newMessageDome = {
 				id: temp.length + 1,
-				text: response,
+				text: response.message,
 				date: new Date(),
 				fromDome: true,
 			};
 
 			setMessages([newMessageDome, ...temp]);
+			setUserData(response.user_data);
 		} catch (err) {
-			// alert(err);
+			alert(err);
 		} finally {
 			setIsLoading(false);
 		}
