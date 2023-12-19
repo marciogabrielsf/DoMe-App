@@ -19,6 +19,7 @@ export default function HomeBanner({ name }: HomeBannerProps) {
 			setMessage(newName);
 		}, 8000);
 	};
+	
 
 	const navigation = useNavigation();
 

@@ -13,71 +13,32 @@ import {
 	TouchableButton,
 } from "./styles";
 import Message from "./components/message";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
-import { useMessage } from "@/hooks/useMessage";
-import * as Haptics from "expo-haptics";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
-export interface Message {
-	id: number;
-	text: string;
-	date: Date;
-	fromDome?: boolean;
-}
+import { useConversation } from "@/contexts/conversation";
+import { useIsFocused } from "@react-navigation/native";
+import Toast from "react-native-toast-message";
 
 export default function AddPage() {
 	const [text, setText] = React.useState("");
-	const [messages, setMessages] = React.useState<Message[]>([]);
+	const FlatListRef = useRef<FlatList>();
 
 	let insets = useSafeAreaInsets();
 
+	const { messages, sendMessage, isLoading } = useConversation();
+
 	const headerHeight = useHeaderHeight();
-	const { isLoading, mutateAsync } = useMessage();
-
-	useEffect(() => {
-		async function getMessages() {
-			AsyncStorage.getItem("messages").then((data) => {
-				if (data) {
-					setMessages(JSON.parse(data));
-				}
-			});
-		}
-		getMessages();
-	}, []);
-
-	useEffect(() => {
-		AsyncStorage.setItem("messages", JSON.stringify(messages));
-	}, [messages]);
-
-	const sendMessage = async () => {
+	const sendMessageHandle = async () => {
 		if (text.length > 0) {
 			try {
-				Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-				const newMessage = {
-					id: messages.length + 1,
-					text: text,
-					date: new Date(),
-					fromDome: false,
-				};
-				const temp = [newMessage, ...messages];
-				setMessages(temp);
+				FlatListRef.current.scrollToOffset({ animated: true, offset: -9999 });
 				setText("");
-				const response = (await mutateAsync({ message: text })).message;
-				console.log(response);
-				const newMessageDome = {
-					id: temp.length + 1,
-					text: response,
-					date: new Date(),
-					fromDome: true,
-				};
-				setMessages([newMessageDome, ...temp]);
+				await sendMessage(text);
 			} catch (err) {
-				// alert(err);
+				alert(err);
 			}
 		}
 	};
-
-	const FlatListRef = useRef<FlatList>();
 
 	const renderItem = useCallback(({ item }) => {
 		return <Message text={item.text} date={item.date} fromDome={item.fromDome} />;
@@ -95,8 +56,8 @@ export default function AddPage() {
 					paddingHorizontal: 10,
 				}}
 				data={messages}
-				initialNumToRender={10}
-				keyExtractor={(item) => String(item.id)}
+				initialNumToRender={5}
+				// keyExtractor={(item) => String(item.id)}
 				renderItem={renderItem}
 				windowSize={11}
 				removeClippedSubviews={true}
@@ -108,7 +69,7 @@ export default function AddPage() {
 						<TouchableButton>
 							<MicrophoneBarIcon />
 						</TouchableButton>
-						<TouchableButton onPress={sendMessage} disabled={isLoading}>
+						<TouchableButton onPress={sendMessageHandle} disabled={isLoading}>
 							<SendButtonView isLoading={isLoading}>
 								{isLoading ? <ActivityIndicator color="white" /> : <SendButtonIcon />}
 							</SendButtonView>

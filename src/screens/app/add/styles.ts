@@ -2,9 +2,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import styled, { DefaultTheme } from "styled-components/native";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Platform, FlatList } from "react-native";
-import { Message } from ".";
 
 export const SafeArea = styled.SafeAreaView`
 	flex: 1;
