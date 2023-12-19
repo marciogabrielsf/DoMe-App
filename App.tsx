@@ -10,6 +10,7 @@ import "react-native-reanimated";
 import "react-native-gesture-handler";
 import ReactQueryProvider from "@/contexts/ReactQueryProvider";
 import { ConversationProvider } from "@/contexts/conversation";
+import Toast from "react-native-toast-message";
 
 export default function App() {
 	const [fontsLoaded] = useFonts({
@@ -39,6 +40,7 @@ export default function App() {
 					<SafeAreaProvider>
 						<ThemeProvider theme={theme}>
 							<Routes />
+							<Toast />
 						</ThemeProvider>
 					</SafeAreaProvider>
 				</ConversationProvider>

@@ -14,33 +14,31 @@ import {
 } from "./styles";
 import Message from "./components/message";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useMessage } from "@/hooks/useMessage";
-import * as Haptics from "expo-haptics";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { useConversation } from "@/contexts/conversation";
+import { useIsFocused } from "@react-navigation/native";
+import Toast from "react-native-toast-message";
 
 export default function AddPage() {
 	const [text, setText] = React.useState("");
+	const FlatListRef = useRef<FlatList>();
 
 	let insets = useSafeAreaInsets();
 
 	const { messages, sendMessage, isLoading } = useConversation();
 
 	const headerHeight = useHeaderHeight();
-
 	const sendMessageHandle = async () => {
 		if (text.length > 0) {
 			try {
-				Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-				sendMessage(text);
+				FlatListRef.current.scrollToOffset({ animated: true, offset: -9999 });
 				setText("");
+				await sendMessage(text);
 			} catch (err) {
 				alert(err);
 			}
 		}
 	};
-
-	const FlatListRef = useRef<FlatList>();
 
 	const renderItem = useCallback(({ item }) => {
 		return <Message text={item.text} date={item.date} fromDome={item.fromDome} />;
@@ -58,8 +56,8 @@ export default function AddPage() {
 					paddingHorizontal: 10,
 				}}
 				data={messages}
-				initialNumToRender={10}
-				keyExtractor={(item) => String(item.id)}
+				initialNumToRender={5}
+				// keyExtractor={(item) => String(item.id)}
 				renderItem={renderItem}
 				windowSize={11}
 				removeClippedSubviews={true}

@@ -2,6 +2,8 @@ import { useMessage } from "@/hooks/useMessage";
 import { IUserData } from "@/services/messages.service";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useContext, useEffect, useState } from "react";
+import * as Haptics from "expo-haptics";
+import Toast from "react-native-toast-message";
 
 export interface Message {
 	id: number;
@@ -47,10 +49,9 @@ export const ConversationProvider = ({ children }: ConversationProviderProps) =>
 		AsyncStorage.setItem("messages", JSON.stringify(messages));
 	}, [messages]);
 
-	console.log(userData);
-
 	const sendMessage = async (text: string) => {
 		try {
+			Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
 			setIsLoading(true);
 			const newMessage = {
 				id: messages.length + 1,
@@ -73,6 +74,11 @@ export const ConversationProvider = ({ children }: ConversationProviderProps) =>
 
 			setMessages([newMessageDome, ...temp]);
 			setUserData(response.user_data);
+			Toast.show({
+				text1: "DoMe:",
+				text2: response.message,
+			});
+			Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
 		} catch (err) {
 			alert(err);
 		} finally {
