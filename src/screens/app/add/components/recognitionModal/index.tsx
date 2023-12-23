@@ -48,7 +48,7 @@ export default function RecognitionModal({
 									transition={{
 										type: "spring",
 										stiffness: 200,
-										damping: 20,
+										damping: 30,
 									}}
 									key={index}
 								>
