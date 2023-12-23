@@ -3,8 +3,7 @@ import { IUserData } from "@/services/messages.service";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useContext, useEffect, useState } from "react";
 import * as Haptics from "expo-haptics";
-import Toast from "react-native-toast-message";
-
+import Voice from "@react-native-voice/voice";
 export interface Message {
 	id: number;
 	text: string;
@@ -15,6 +14,11 @@ export interface Message {
 interface ConversationContextData {
 	messages: Message[];
 	isLoading: boolean;
+	recordingResult: string;
+	isRecording: boolean;
+	startRecording(): Promise<void>;
+	clearRecording(): Promise<void>;
+	endRecoding(): Promise<void>;
 	sendMessage(message: string): Promise<void>;
 }
 
@@ -29,6 +33,8 @@ type ConversationProviderProps = {
 export const ConversationProvider = ({ children }: ConversationProviderProps) => {
 	const [messages, setMessages] = useState<Message[]>([]);
 	const [userData, setUserData] = useState<IUserData>({ chat_id: 12345 } as IUserData);
+	const [isRecording, setIsRecording] = useState(false);
+	const [recordingResult, setRecordingResult] = useState("");
 
 	const [isLoading, setIsLoading] = useState(false);
 	const { mutateAsync } = useMessage();
@@ -48,6 +54,24 @@ export const ConversationProvider = ({ children }: ConversationProviderProps) =>
 	useEffect(() => {
 		AsyncStorage.setItem("messages", JSON.stringify(messages));
 	}, [messages]);
+
+	useEffect(() => {
+		Voice.onSpeechPartialResults = (e) => {
+			setRecordingResult(e.value[0]);
+		};
+		Voice.onSpeechResults = (e) => {
+			setRecordingResult(e.value[0]);
+		};
+		Voice.onSpeechEnd = () => {
+			setIsRecording(false);
+		};
+		Voice.onSpeechError = () => {
+			setIsRecording(false);
+		};
+		return () => {
+			Voice.destroy().then(Voice.removeAllListeners);
+		};
+	}, []);
 
 	const sendMessage = async (text: string) => {
 		try {
@@ -74,10 +98,6 @@ export const ConversationProvider = ({ children }: ConversationProviderProps) =>
 
 			setMessages([newMessageDome, ...temp]);
 			setUserData(response.user_data);
-			Toast.show({
-				text1: "DoMe:",
-				text2: response.message,
-			});
 			Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
 		} catch (err) {
 			alert(err);
@@ -85,9 +105,46 @@ export const ConversationProvider = ({ children }: ConversationProviderProps) =>
 			setIsLoading(false);
 		}
 	};
+	const clearRecording = async () => {
+		try {
+			setRecordingResult("");
+			Voice.destroy().then(Voice.removeAllListeners);
+		} catch (err) {
+			alert(err);
+		}
+	};
+
+	const startRecording = async () => {
+		try {
+			setIsRecording(true);
+			await Voice.start("en-US");
+		} catch (err) {
+			alert(err);
+		}
+	};
+
+	const endRecoding = async () => {
+		try {
+			await Voice.stop();
+			setIsRecording(false);
+		} catch (err) {
+			alert(err);
+		}
+	};
 
 	return (
-		<ConversationContext.Provider value={{ messages, isLoading, sendMessage }}>
+		<ConversationContext.Provider
+			value={{
+				messages,
+				clearRecording,
+				isLoading,
+				sendMessage,
+				startRecording,
+				endRecoding,
+				recordingResult,
+				isRecording,
+			}}
+		>
 			{children}
 		</ConversationContext.Provider>
 	);

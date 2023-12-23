@@ -33,13 +33,15 @@
       "tsconfigPaths": true
     },
     "plugins": [
-      [
-      "expo-build-properties", {
+      ["@react-native-voice/voice", {
+        "microphonePermission": "Allow Voice to App_Name to access the microphone",
+        "speechRecognitionPermission": "Allow Voice to App_Name to securely recognize user speech"
+      }],
+      ["expo-build-properties", {
         "ios": {
           "flipper": true
         }
       }
-    ]
-    ]
+    ]]
   }
 }
