@@ -52,10 +52,6 @@ export const ConversationProvider = ({ children }: ConversationProviderProps) =>
 	}, []);
 
 	useEffect(() => {
-		AsyncStorage.setItem("messages", JSON.stringify(messages));
-	}, [messages]);
-
-	useEffect(() => {
 		Voice.onSpeechPartialResults = (e) => {
 			setRecordingResult(e.value[0]);
 		};
@@ -73,38 +69,37 @@ export const ConversationProvider = ({ children }: ConversationProviderProps) =>
 		};
 	}, []);
 
+	async function addMessage(message: string, fromDome: boolean = false) {
+		const newMessage = {
+			id: messages.length + 1,
+			text: message,
+			date: new Date(),
+			fromDome: fromDome,
+		};
+		const temp = messages;
+		temp.unshift(newMessage);
+		setMessages(temp);
+		AsyncStorage.setItem("messages", JSON.stringify(messages));
+	}
+
 	const sendMessage = async (text: string) => {
 		try {
 			Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
 			setIsLoading(true);
-			const newMessage = {
-				id: messages.length + 1,
-				text: text,
-				date: new Date(),
-				fromDome: false,
-			};
 
-			const temp = [newMessage, ...messages];
-			setMessages(temp);
-
+			await addMessage(text);
 			const response = await mutateAsync({ message: text, user_data: userData });
+			await addMessage(response.message, true);
 
-			const newMessageDome = {
-				id: temp.length + 1,
-				text: response.message,
-				date: new Date(),
-				fromDome: true,
-			};
-
-			setMessages([newMessageDome, ...temp]);
 			setUserData(response.user_data);
 			Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
 		} catch (err) {
-			alert(err);
+			addMessage(`An error has ocurred:\n${err.message}`, true);
 		} finally {
 			setIsLoading(false);
 		}
 	};
+
 	const clearRecording = async () => {
 		try {
 			setRecordingResult("");
