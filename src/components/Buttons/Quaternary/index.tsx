@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacityProps } from "react-native";
 import React from "react";
-import { ButtonContainer, ButtonGradient, ButtonText } from "./styles";
+import { ButtonContainer, ButtonText } from "./styles";
 
 interface PrimaryButtonProps extends TouchableOpacityProps {
 	children: React.ReactNode;
@@ -8,12 +8,14 @@ interface PrimaryButtonProps extends TouchableOpacityProps {
 	disabled?: boolean;
 }
 
-export default function QuaternaryButton({ children, loading, disabled }: PrimaryButtonProps) {
+export default function QuaternaryButton({
+	children,
+	loading,
+	...props
+}: PrimaryButtonProps) {
 	return (
-		<ButtonContainer>
-			<ButtonGradient>
-				<ButtonText>{children}</ButtonText>
-			</ButtonGradient>
+		<ButtonContainer {...props} >
+			<ButtonText>{children}</ButtonText>
 		</ButtonContainer>
 	);
 }

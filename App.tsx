@@ -1,4 +1,4 @@
-import Routes from "@/routes";
+import { Routes } from "@/routes";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback } from "react";
@@ -6,12 +6,14 @@ import { ThemeProvider } from "styled-components/native";
 import theme from "@/themes/theme";
 import { AuthProvider } from "@/contexts/auth";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import "react-native-reanimated";
-import "react-native-gesture-handler";
 import ReactQueryProvider from "@/contexts/ReactQueryProvider";
 import { ConversationProvider } from "@/contexts/conversation";
 import Toast from "react-native-toast-message";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
+import "react-native-reanimated";
+import "react-native-gesture-handler";
+import DefaultBackground from "@/components/Background";
 export default function App() {
 	const [fontsLoaded] = useFonts({
 		"NunitoSans-Black": require("./assets/fonts/NunitoSans-Black.ttf"),
@@ -34,17 +36,21 @@ export default function App() {
 	}
 
 	return (
-		<AuthProvider>
-			<ReactQueryProvider>
-				<ConversationProvider>
-					<SafeAreaProvider>
-						<ThemeProvider theme={theme}>
-							<Routes />
-							<Toast />
-						</ThemeProvider>
-					</SafeAreaProvider>
-				</ConversationProvider>
-			</ReactQueryProvider>
-		</AuthProvider>
+		<GestureHandlerRootView style={{ flex: 1 }}>
+			<AuthProvider>
+				<ReactQueryProvider>
+					<ConversationProvider>
+						<SafeAreaProvider>
+							<ThemeProvider theme={theme}>
+								<DefaultBackground>
+									<Routes />
+									<Toast />
+								</DefaultBackground>
+							</ThemeProvider>
+						</SafeAreaProvider>
+					</ConversationProvider>
+				</ReactQueryProvider>
+			</AuthProvider>
+		</GestureHandlerRootView>
 	);
 }

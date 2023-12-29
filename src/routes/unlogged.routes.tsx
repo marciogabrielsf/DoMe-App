@@ -1,15 +1,16 @@
-import { View, Text } from "react-native";
 import React from "react";
-import Home from "@/screens/app/home";
-import { createStackNavigator } from "@react-navigation/stack";
-import Init from "@/screens/init";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { LoginScreen } from "@/screens/init/login";
+import { Init } from "@/screens/init/start";
 
-const Stack = createStackNavigator();
+const { Navigator, Screen } = createNativeStackNavigator();
 
-export default function UnloggedRoutes() {
+export function UnloggedRoutes() {
 	return (
-		<Stack.Navigator>
-			<Stack.Screen name="init" component={Init} options={{ headerShown: false }} />
-		</Stack.Navigator>
+		<Navigator>
+			<Screen name="init" component={Init} options={{ headerShown: false }} />
+			<Screen name="login" component={LoginScreen} options={{ headerShown: false }} />
+			<Screen name="signup" component={LoginScreen} options={{ headerShown: false }} />
+		</Navigator>
 	);
 }

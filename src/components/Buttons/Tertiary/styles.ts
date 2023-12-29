@@ -1,4 +1,4 @@
-import styled, { DefaultTheme } from "styled-components/native";
+import styled from "styled-components/native";
 
 export const ButtonContainer = styled.TouchableOpacity`
 	background-color: #90909050;
@@ -11,6 +11,6 @@ export const ButtonContainer = styled.TouchableOpacity`
 `;
 
 export const ButtonText = styled.Text`
-	color: ${({ theme }: DefaultTheme) => theme.colors.textColor.inverted};
+	color: ${(props) => props.theme.colors.textColor.inverted};
 	font-size: 18px;
 `;

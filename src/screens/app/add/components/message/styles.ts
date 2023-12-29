@@ -1,5 +1,5 @@
 import { MotiView } from "moti";
-import styled, { DefaultTheme } from "styled-components/native";
+import styled  from "styled-components/native";
 
 interface Messages {
 	fromDome?: boolean;
@@ -13,7 +13,7 @@ export const MessageView = styled(MotiView)<Messages>`
 	justify-content: center;
 	align-items: flex-start;
 	align-self: flex-end;
-	background-color: ${({ theme }: DefaultTheme) => theme.colors.purple[400]};
+	background-color: ${({ theme }) => theme.colors.purple[400]};
 	margin-top: 10px;
 
 	${({ fromDome }: Messages) =>
@@ -26,8 +26,8 @@ export const MessageView = styled(MotiView)<Messages>`
 
 export const MessageText = styled.Text`
 	font-size: 18px;
-	color: ${({ theme }: DefaultTheme) => theme.colors.textColor.inverted};
-	font-family: ${({ theme }: DefaultTheme) => theme.fonts.nunitoSans.regular};
+	color: ${({ theme }) => theme.colors.textColor.inverted};
+	font-family: ${({ theme }) => theme.fonts.nunitoSans.regular};
 `;
 
 export const HourDate = styled.Text`

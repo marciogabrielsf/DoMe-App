@@ -8,17 +8,20 @@ import {
 	Footer,
 	FooterText,
 	SafeArea,
+	TextSpan,
 } from "./styles";
 import PrimaryButton from "@/components/Buttons/Primary";
-import { useAuth } from "@/hooks/useAuth";
 import { animations } from "./animations";
+import QuaternaryButton from "@/components/Buttons/Quaternary";
+import { useNavigation } from "@react-navigation/native";
+import { useAuth } from "@/hooks/useAuth";
 
-export default function Init() {
+export function Init() {
+	const navigation = useNavigation();
 	const auth = useAuth();
 
-	const handleLogin = () => {
-		auth.signIn();
-	};
+	const handleLogin = () => navigation.navigate("login");
+	const handleSignUp = () => auth.signIn();
 
 	return (
 		<Container>
@@ -29,7 +32,10 @@ export default function Init() {
 				</Header>
 				<Footer {...animations.footer}>
 					<FooterText>Take Care of your Finances with the power of your voice.</FooterText>
-					<PrimaryButton onPress={handleLogin}>Continue</PrimaryButton>
+					<PrimaryButton onPress={handleSignUp}>Continue</PrimaryButton>
+					<QuaternaryButton onPress={handleLogin}>
+						Already has an Account? <TextSpan>Log In.</TextSpan>
+					</QuaternaryButton>
 				</Footer>
 			</SafeArea>
 			<BackgroundVector />
