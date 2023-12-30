@@ -20,8 +20,8 @@ export function Init() {
 	const navigation = useNavigation();
 	const auth = useAuth();
 
-	const handleLogin = () => navigation.navigate("login");
-	const handleSignUp = () => auth.signIn();
+	const handleLogin = () => navigation.navigate("loginStep1");
+	const handleSignUp = () => navigation.navigate("signUpStep1");
 
 	return (
 		<Container>
