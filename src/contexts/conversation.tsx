@@ -4,12 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useContext, useEffect, useState } from "react";
 import * as Haptics from "expo-haptics";
 import Voice from "@react-native-voice/voice";
-export interface Message {
-	id: number;
-	text: string;
-	date: Date;
-	fromDome?: boolean;
-}
+import { Message } from "@/interfaces/Message";
 
 interface ConversationContextData {
 	messages: Message[];

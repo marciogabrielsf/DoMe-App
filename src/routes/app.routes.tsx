@@ -7,6 +7,7 @@ import TabBarCustomButton from "@/components/TabBar/TabBarButton";
 import { BlurView } from "expo-blur";
 import AddPage from "@/screens/app/add";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Settings from "@/screens/app/settings";
 
 const BottomTab = createBottomTabNavigator();
 const StackNavigator = createNativeStackNavigator();
@@ -23,10 +24,9 @@ export default function AppRoutes() {
 			/>
 			<StackNavigator.Screen
 				options={{
-					presentation: Platform.OS === "ios" ? "card" : "transparentModal",
 					headerShown: true,
 					headerTransparent: true,
-					headerBackTitle: "Voltar",
+					headerBackTitle: "Back",
 					headerTitle: "Add",
 					headerTitleStyle: {
 						fontFamily: "NunitoSans-Regular",
@@ -106,15 +106,15 @@ function AppBottomNavigator() {
 					};
 				}}
 			/>
-			{/* <BottomTab.Screen
+			<BottomTab.Screen
 				name="Settings"
-				component={Init}
+				component={Settings}
 				options={{
 					headerShown: false,
 					title: "Configurações",
 					tabBarButton: (props) => (
 						<TabBarCustomButton
-							label="Configurações"
+							label="Settings"
 							{...props}
 							type="Ionicons"
 							unfocusedIcon="settings-outline"
@@ -122,7 +122,7 @@ function AppBottomNavigator() {
 						/>
 					),
 				}}
-			/> */}
+			/>
 		</BottomTab.Navigator>
 	);
 }

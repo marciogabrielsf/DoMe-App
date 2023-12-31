@@ -13,11 +13,17 @@ type SignUpParams = {
 export default function SignUpStep5() {
 	const route = useRoute<RouteProp<SignUpParams, "signUpStep2">>();
 	const { data: routeData } = route.params;
-	const auth = useAuth();
+	const { signInWithEmail, loading } = useAuth();
 
 	const name = routeData.name.split(" ")[0];
 
-	const handlePress = () => auth.signIn();
+	const handlePress = async () => {
+		try {
+			await signInWithEmail(routeData.email, routeData.password);
+		} catch (err) {
+			alert(err.message);
+		}
+	};
 
 	return (
 		<DefaultBackground>
@@ -25,9 +31,11 @@ export default function SignUpStep5() {
 				<Container>
 					<Title>Account Created Successfully!</Title>
 					<Subtitle>
-						That's amazing {name}! Now you can access the app on the button below.
+						That's amazing {name}! Now please, verify your e-mail address and click Continue.
 					</Subtitle>
-					<PrimaryButton onPress={handlePress}>Continue</PrimaryButton>
+					<PrimaryButton loading={loading} onPress={handlePress}>
+						Continue
+					</PrimaryButton>
 				</Container>
 			</SafeArea>
 		</DefaultBackground>

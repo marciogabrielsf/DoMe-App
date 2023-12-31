@@ -35,7 +35,7 @@ export function LoginScreen() {
 							autoFocus
 							onChangeText={(e) => setLogin(e)}
 							keyboardType="email-address"
-							placeholder="E-Mail or CPF"
+							placeholder="E-Mail"
 						/>
 					</InputContainer>
 					<PrimaryButton onPress={handleNextStep}>Continue</PrimaryButton>

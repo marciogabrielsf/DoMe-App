@@ -21,14 +21,18 @@ type LoginParams = {
 
 export function LoginStep2() {
 	const route = useRoute<RouteProp<LoginParams, "loginStep2">>();
-	const auth = useAuth();
+	const { signInWithEmail, loading } = useAuth();
 	const [password, setPassword] = useState("");
 	const { login } = route.params;
 
-	const handleLogin = () => {
+	const handleLogin = async () => {
 		if (password.length < 3) return alert("Invalid Password");
 		console.log("\nLogin: ", login, "\nPassword: ", password);
-		auth.signIn();
+		try {
+			await signInWithEmail(login, password);
+		} catch (err) {
+			alert(err.message);
+		}
 	};
 	return (
 		<DefaultBackground>
@@ -47,7 +51,9 @@ export function LoginStep2() {
 							/>
 						</InputContainer>
 					</TextInputContainer>
-					<PrimaryButton onPress={handleLogin}>Log in</PrimaryButton>
+					<PrimaryButton loading={loading} onPress={handleLogin}>
+						Log in
+					</PrimaryButton>
 					<QuaternaryButton>Forgot your password?</QuaternaryButton>
 				</Container>
 			</SafeArea>
