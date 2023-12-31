@@ -16,18 +16,46 @@ import Message from "./components/message";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { useConversation } from "@/contexts/conversation";
-import { useIsFocused } from "@react-navigation/native";
-import Toast from "react-native-toast-message";
+import RecognitionModal from "./components/recognitionModal";
 
 export default function AddPage() {
 	const [text, setText] = React.useState("");
+	const [isModalVisible, setIsModalVisible] = React.useState(false);
 	const FlatListRef = useRef<FlatList>();
 
 	let insets = useSafeAreaInsets();
 
-	const { messages, sendMessage, isLoading } = useConversation();
+	const {
+		messages,
+		sendMessage,
+		isLoading,
+		clearRecording,
+		startRecording,
+		endRecoding,
+		recordingResult,
+		isRecording,
+	} = useConversation();
 
 	const headerHeight = useHeaderHeight();
+
+	const handleModalOpen = async () => {
+		setIsModalVisible(true);
+		await startRecording();
+	};
+
+	const handleModalClose = async () => {
+		await endRecoding();
+		clearRecording();
+		setIsModalVisible(false);
+	};
+
+	const handleConfirmRecording = async () => {
+		await endRecoding();
+		clearRecording();
+		setIsModalVisible(false);
+		await sendMessage(recordingResult);
+	};
+
 	const sendMessageHandle = async () => {
 		if (text.length > 0) {
 			try {
@@ -66,7 +94,7 @@ export default function AddPage() {
 				<MessageView>
 					<BottomTextBoxView>
 						<TextBox value={text} onChangeText={setText} />
-						<TouchableButton>
+						<TouchableButton onPress={handleModalOpen}>
 							<MicrophoneBarIcon />
 						</TouchableButton>
 						<TouchableButton onPress={sendMessageHandle} disabled={isLoading}>
@@ -77,6 +105,13 @@ export default function AddPage() {
 					</BottomTextBoxView>
 				</MessageView>
 			</KeyboardAvoid>
+			<RecognitionModal
+				isVisible={isModalVisible}
+				message={recordingResult}
+				onCancel={handleModalClose}
+				onConfirm={handleConfirmRecording}
+				isRecording={isRecording}
+			/>
 		</Background>
 	);
 }

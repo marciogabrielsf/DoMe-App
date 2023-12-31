@@ -12,6 +12,5 @@ export function useMessage() {
 		const response = await sendMessage(props.message, props.user_data);
 		return response;
 	});
-
 	return data;
 }

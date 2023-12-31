@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacityProps } from "react-native";
+import { View, Text, TouchableOpacityProps, ActivityIndicator } from "react-native";
 import React from "react";
 import { ButtonContainer, ButtonGradient, ButtonText } from "./styles";
 
@@ -10,14 +10,18 @@ interface PrimaryButtonProps extends TouchableOpacityProps {
 
 export default function PrimaryButton({
 	children,
-	loading,
+	loading = false,
 	disabled,
 	...props
 }: PrimaryButtonProps) {
 	return (
 		<ButtonContainer {...props}>
 			<ButtonGradient>
-				<ButtonText>{children}</ButtonText>
+				{loading ? (
+					<ActivityIndicator size="small" color="#fff" />
+				) : (
+					<ButtonText>{children}</ButtonText>
+				)}
 			</ButtonGradient>
 		</ButtonContainer>
 	);

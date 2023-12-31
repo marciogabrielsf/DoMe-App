@@ -30,5 +30,6 @@ export async function sendMessage(
 		return response.data;
 	} catch (err) {
 		console.log(err);
+		throw err;
 	}
 }

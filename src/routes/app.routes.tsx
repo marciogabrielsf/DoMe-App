@@ -1,15 +1,16 @@
-import { View, Text, Platform } from "react-native";
+import { Platform } from "react-native";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from "@/screens/app/home";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import TabBarCustomButton from "@/components/TabBar/TabBarButton";
 import { BlurView } from "expo-blur";
-import { createStackNavigator } from "@react-navigation/stack";
 import AddPage from "@/screens/app/add";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Settings from "@/screens/app/settings";
 
 const BottomTab = createBottomTabNavigator();
-const StackNavigator = createStackNavigator();
+const StackNavigator = createNativeStackNavigator();
 
 export default function AppRoutes() {
 	return (
@@ -23,10 +24,9 @@ export default function AppRoutes() {
 			/>
 			<StackNavigator.Screen
 				options={{
-					presentation: Platform.OS === "ios" ? "card" : "transparentModal",
 					headerShown: true,
 					headerTransparent: true,
-					headerBackTitle: "Voltar",
+					headerBackTitle: "Back",
 					headerTitle: "Add",
 					headerTitleStyle: {
 						fontFamily: "NunitoSans-Regular",
@@ -106,15 +106,15 @@ function AppBottomNavigator() {
 					};
 				}}
 			/>
-			{/* <BottomTab.Screen
+			<BottomTab.Screen
 				name="Settings"
-				component={Init}
+				component={Settings}
 				options={{
 					headerShown: false,
 					title: "Configurações",
 					tabBarButton: (props) => (
 						<TabBarCustomButton
-							label="Configurações"
+							label="Settings"
 							{...props}
 							type="Ionicons"
 							unfocusedIcon="settings-outline"
@@ -122,7 +122,7 @@ function AppBottomNavigator() {
 						/>
 					),
 				}}
-			/> */}
+			/>
 		</BottomTab.Navigator>
 	);
 }

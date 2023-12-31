@@ -1,5 +1,5 @@
 import { LinearGradient } from "expo-linear-gradient";
-import styled, { DefaultTheme } from "styled-components/native";
+import styled from "styled-components/native";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
 import { Platform, FlatList } from "react-native";
@@ -8,7 +8,7 @@ export const SafeArea = styled.SafeAreaView`
 	flex: 1;
 `;
 
-export const Background = styled(LinearGradient as any).attrs(({ theme }: DefaultTheme) => ({
+export const Background = styled(LinearGradient as any).attrs(({ theme }) => ({
 	colors: theme.colors.gradient.background,
 	start: { x: 0, y: 0 },
 	end: { x: 1, y: 1 },
@@ -22,8 +22,8 @@ export const KeyboardAvoid = styled.KeyboardAvoidingView.attrs({
 
 export const Title = styled.Text`
 	font-size: 22px;
-	color: ${({ theme }: DefaultTheme) => theme.colors.textColor.inverted};
-	font-family: ${({ theme }: DefaultTheme) => theme.fonts.nunitoSans.regular};
+	color: ${({ theme }) => theme.colors.textColor.inverted};
+	font-family: ${({ theme }) => theme.fonts.nunitoSans.regular};
 `;
 
 export const MessageContainer = styled.FlatList.attrs({
@@ -42,7 +42,7 @@ export const MessageView = styled.View`
 	border-top-left-radius: 15px;
 `;
 
-export const BottomTextBoxView = styled(BlurView).attrs(({ theme }: DefaultTheme) => ({
+export const BottomTextBoxView = styled(BlurView).attrs(({ theme }) => ({
 	intensity: 100,
 	tint: "dark",
 }))`
@@ -51,7 +51,7 @@ export const BottomTextBoxView = styled(BlurView).attrs(({ theme }: DefaultTheme
 	flex-direction: row;
 `;
 
-export const TextBox = styled.TextInput.attrs(({ theme }: DefaultTheme) => ({
+export const TextBox = styled.TextInput.attrs(({ theme }) => ({
 	placeholderTextColor: "#808080",
 	selectionColor: theme.colors.textColor.inverted,
 	placeholder: "Type Here...",
@@ -62,24 +62,22 @@ export const TextBox = styled.TextInput.attrs(({ theme }: DefaultTheme) => ({
 	padding: 10px;
 	flex: 1;
 	color: #fff;
-	font-family: ${({ theme }: DefaultTheme) => theme.fonts.nunitoSans.regular};
+	font-family: ${({ theme }) => theme.fonts.nunitoSans.regular};
 	border-radius: 20px;
 	font-size: 16px;
-	border: solid 0.5px ${({ theme }: DefaultTheme) => theme.colors.gray[400]};
-	background-color: ${({ theme }: DefaultTheme) => theme.colors.gray[200]};
+	border: solid 0.5px ${({ theme }) => theme.colors.gray[400]};
+	background-color: ${({ theme }) => theme.colors.gray[200]};
 `;
 
-export const MicrophoneBarIcon = styled(MaterialCommunityIcons as any).attrs(
-	({ theme }: DefaultTheme) => ({
-		name: "microphone",
-		size: 28,
-		color: theme.colors.textColor.inverted,
-	})
-)`
+export const MicrophoneBarIcon = styled(MaterialCommunityIcons as any).attrs(({ theme }) => ({
+	name: "microphone",
+	size: 28,
+	color: theme.colors.textColor.inverted,
+}))`
 	padding: 10px;
 `;
 
-export const SendButtonIcon = styled(Ionicons as any).attrs(({ theme }: DefaultTheme) => ({
+export const SendButtonIcon = styled(Ionicons as any).attrs(({ theme }) => ({
 	name: "ios-send",
 	size: 22,
 	color: theme.colors.textColor.inverted,
@@ -92,7 +90,7 @@ interface ButtonProps {
 }
 
 export const SendButtonView = styled.View<ButtonProps>`
-	background-color: ${({ theme }: DefaultTheme) => theme.colors.purple[400]};
+	background-color: ${({ theme }) => theme.colors.purple[400]};
 	border-radius: 999px;
 	padding: 10px;
 

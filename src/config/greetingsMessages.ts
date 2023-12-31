@@ -11,6 +11,7 @@ export const generateGreetingsMessage = ({ message, name }: Props): string => {
 		`Say like: "Add student with name = Paulo Henrique"`,
 		`Say like: "Get Students with name Paulo"`,
 		"Hi! my name is DoMe, I'm here to help you with your tasks.",
+		`Hi ${name}!`,
 	];
 
 	do {

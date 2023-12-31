@@ -1,4 +1,4 @@
-import styled, { DefaultTheme } from "styled-components/native";
+import styled  from "styled-components/native";
 
 export const TabBarView = styled.View`
 	flex: 1;
@@ -11,5 +11,5 @@ export const TabBarButton = styled.TouchableOpacity`
 `;
 
 export const TabBarLabel = styled.Text`
-	color: ${({ theme }: DefaultTheme) => theme.colors.textColor.inverted};
+	color: ${({ theme }) => theme.colors.textColor.inverted};
 `;
