@@ -14,6 +14,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-reanimated";
 import "react-native-gesture-handler";
 import DefaultBackground from "@/components/Background";
+import { toastConfig } from "@/themes/toast";
 export default function App() {
 	const [fontsLoaded] = useFonts({
 		"NunitoSans-Black": require("./assets/fonts/NunitoSans-Black.ttf"),
@@ -44,7 +45,7 @@ export default function App() {
 							<ThemeProvider theme={theme}>
 								<DefaultBackground>
 									<Routes />
-									<Toast />
+									<Toast config={toastConfig}/>
 								</DefaultBackground>
 							</ThemeProvider>
 						</SafeAreaProvider>

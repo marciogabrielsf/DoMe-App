@@ -14,6 +14,8 @@ import PrimaryButton from "@/components/Buttons/Primary";
 import QuaternaryButton from "@/components/Buttons/Quaternary";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useAuth } from "@/hooks/useAuth";
+import Toast from "react-native-toast-message";
+import * as Haptics from "expo-haptics";
 
 type LoginParams = {
 	loginStep2: { login: string };
@@ -27,11 +29,15 @@ export function LoginStep2() {
 
 	const handleLogin = async () => {
 		if (password.length < 3) return alert("Invalid Password");
-		console.log("\nLogin: ", login, "\nPassword: ", password);
 		try {
 			await signInWithEmail(login, password);
 		} catch (err) {
-			alert(err.message);
+			Toast.show({
+				type: "error",
+				text1: err.message,
+				autoHide: true,
+			});
+			Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
 		}
 	};
 	return (
@@ -47,6 +53,7 @@ export function LoginStep2() {
 							<InputBox
 								onChangeText={(text) => setPassword(text)}
 								secureTextEntry
+								autoFocus
 								placeholder="Password"
 							/>
 						</InputContainer>

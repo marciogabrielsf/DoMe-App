@@ -8,6 +8,7 @@ import { BlurView } from "expo-blur";
 import AddPage from "@/screens/app/add";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Settings from "@/screens/app/settings";
+import ClearConversations from "@/screens/app/settings/ClearConversations";
 
 const BottomTab = createBottomTabNavigator();
 const StackNavigator = createNativeStackNavigator();
@@ -22,23 +23,35 @@ export default function AppRoutes() {
 				name="default"
 				component={AppBottomNavigator}
 			/>
-			<StackNavigator.Screen
-				options={{
+			<StackNavigator.Group
+				screenOptions={{
 					headerShown: true,
 					headerTransparent: true,
 					headerBackTitle: "Back",
-					headerTitle: "Add",
 					headerTitleStyle: {
 						fontFamily: "NunitoSans-Regular",
 						color: "#fff",
 					},
 
-					headerTintColor: Platform.OS === "ios" ? "#007AFF" : "#FFF",
-					headerBackground: () => <BlurView style={{ flex: 1 }} intensity={60} tint="dark" />,
+					headerTintColor: "#FFF",
+					headerBlurEffect: "systemThinMaterialDark",
 				}}
-				name="addPage"
-				component={AddPage}
-			/>
+			>
+				<StackNavigator.Screen
+					name="addPage"
+					component={AddPage}
+					options={{
+						headerTitle: "Add",
+					}}
+				/>
+				<StackNavigator.Screen
+					name="clearAllConversations"
+					component={ClearConversations}
+					options={{
+						headerTitle: "Clear Conversations",
+					}}
+				/>
+			</StackNavigator.Group>
 		</StackNavigator.Navigator>
 	);
 }

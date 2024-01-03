@@ -1,9 +1,7 @@
 import React from "react";
-import { Background, Container, FindTransactionsInput, Greetings, SafeArea } from "./styles";
+import { Background, Container, Greetings, SafeArea } from "./styles";
 import BalanceContainer from "../components/BalanceContainer";
 import { TouchableOpacity } from "react-native";
-import * as AsyncStorage from "@react-native-async-storage/async-storage";
-import * as Haptics from "expo-haptics";
 import HomeBanner from "../components/Banner";
 import { useAuth } from "@/hooks/useAuth";
 

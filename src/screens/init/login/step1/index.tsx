@@ -33,6 +33,8 @@ export function LoginScreen() {
 					<InputContainer>
 						<InputBox
 							autoFocus
+							autoCapitalize="none"
+							autoComplete="email"
 							onChangeText={(e) => setLogin(e)}
 							keyboardType="email-address"
 							placeholder="E-Mail"

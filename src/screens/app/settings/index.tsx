@@ -1,6 +1,6 @@
 import React from "react";
 import DefaultBackground from "@/components/Background";
-import { ButtonLabel, Container, Label, SettingSection } from "./styles";
+import { ButtonLabel, Container, Label, SettingSection, Title } from "./styles";
 import SettingButton from "./components/settingButton/settingButton";
 import { appSettings } from "@/config/settings";
 import { useNavigation } from "@react-navigation/native";
@@ -8,9 +8,11 @@ import { useAuth } from "@/hooks/useAuth";
 export default function Settings() {
 	const navigator = useNavigation();
 	const auth = useAuth();
+
 	return (
 		<DefaultBackground>
 			<Container>
+				<Title>Settings</Title>
 				{appSettings.map((setting) => (
 					<SettingSection key={setting.label}>
 						<Label>{setting.label}</Label>

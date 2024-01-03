@@ -5,6 +5,7 @@ import { Container, SafeArea, Subtitle, Title } from "./styles";
 import DefaultBackground from "@/components/Background";
 import PrimaryButton from "@/components/Buttons/Primary";
 import { useAuth } from "@/hooks/useAuth";
+import * as Haptics from "expo-haptics";
 
 type SignUpParams = {
 	signUpStep2: { data: ISignUpData };
@@ -22,6 +23,7 @@ export default function SignUpStep5() {
 			await signInWithEmail(routeData.email, routeData.password);
 		} catch (err) {
 			alert(err.message);
+			Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
 		}
 	};
 
