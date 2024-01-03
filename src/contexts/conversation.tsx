@@ -115,6 +115,7 @@ export const ConversationProvider = ({ children }: ConversationProviderProps) =>
 
 	const startRecording = async () => {
 		try {
+			Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
 			setIsRecording(true);
 			await Voice.start("en-US");
 		} catch (err) {

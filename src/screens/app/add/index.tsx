@@ -44,9 +44,11 @@ export default function AddPage() {
 	};
 
 	const handleModalClose = async () => {
-		await endRecoding();
-		clearRecording();
 		setIsModalVisible(false);
+		setTimeout(async () => {
+			clearRecording();
+			await endRecoding();
+		}, 200);
 	};
 
 	const handleConfirmRecording = async () => {
