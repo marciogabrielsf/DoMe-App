@@ -24,7 +24,10 @@
         "backgroundColor": "#ffffff"
       },
       "softwareKeyboardLayoutMode": "pan",
-      "package": "com.marciogabrielsf.dome"
+      "package": "com.marciogabrielsf.dome",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -33,15 +36,26 @@
       "tsconfigPaths": true
     },
     "plugins": [
-      ["@react-native-voice/voice", {
-        "microphonePermission": "Allow Voice to App_Name to access the microphone",
-        "speechRecognitionPermission": "Allow Voice to App_Name to securely recognize user speech"
-      }],
-      ["expo-build-properties", {
-        "ios": {
-          "flipper": true
+      [
+        "@react-native-voice/voice",
+        {
+          "microphonePermission": "Allow Voice to App_Name to access the microphone",
+          "speechRecognitionPermission": "Allow Voice to App_Name to securely recognize user speech"
         }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "flipper": true
+          }
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "d56e886e-fe65-406d-bc8f-bf6dabd95fce"
       }
-    ]]
+    }
   }
 }

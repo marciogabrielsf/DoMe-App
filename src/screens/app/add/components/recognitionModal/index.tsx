@@ -5,7 +5,6 @@ import {
 	ButtonContainer,
 	CancelButton,
 	ConfirmButton,
-	Container,
 	Content,
 	Message,
 	MessageContainer,
@@ -30,73 +29,71 @@ export default function RecognitionModal({
 	const parsedMessage = message.split(" ");
 
 	return (
-		<Modal isVisible={isVisible} onBackdropPress={onCancel}>
-			<Container>
-				<Content>
-					<MessageContainer>
-						{message ? (
-							parsedMessage.map((word, index) => (
+		<Modal style={{ justifyContent: "flex-end" }} isVisible={isVisible} onBackdropPress={onCancel}>
+			<Content>
+				<MessageContainer>
+					{message ? (
+						parsedMessage.map((word, index) => (
+							<Message
+								from={{
+									opacity: 0,
+									translateX: 20,
+								}}
+								animate={{
+									opacity: 1,
+									translateX: 0,
+								}}
+								transition={{
+									type: "spring",
+									stiffness: 200,
+									damping: 30,
+								}}
+								key={index}
+							>
+								{word}
+							</Message>
+						))
+					) : (
+						<Message>Start Speaking...</Message>
+					)}
+				</MessageContainer>
+				<BottomContainer>
+					{!isRecording && (
+						<ButtonContainer
+							from={{
+								opacity: 0,
+							}}
+							animate={{
+								opacity: 1,
+							}}
+						>
+							<CancelButton onPress={onCancel}>
+								<Message>Cancel</Message>
+							</CancelButton>
+							<Separator />
+							<ConfirmButton onPress={onConfirm}>
 								<Message
 									from={{
 										opacity: 0,
-										translateX: 20,
+										translateY: 20,
 									}}
 									animate={{
 										opacity: 1,
-										translateX: 0,
+										translateY: 0,
 									}}
 									transition={{
 										type: "spring",
 										stiffness: 200,
-										damping: 30,
+										damping: 20,
 									}}
-									key={index}
 								>
-									{word}
+									Confirm
 								</Message>
-							))
-						) : (
-							<Message>Start Speaking...</Message>
-						)}
-					</MessageContainer>
-					<BottomContainer>
-						{!isRecording && (
-							<ButtonContainer
-								from={{
-									opacity: 0,
-								}}
-								animate={{
-									opacity: 1,
-								}}
-							>
-								<CancelButton onPress={onCancel}>
-									<Message>Cancel</Message>
-								</CancelButton>
-								<Separator />
-								<ConfirmButton onPress={onConfirm}>
-									<Message
-										from={{
-											opacity: 0,
-											translateY: 20,
-										}}
-										animate={{
-											opacity: 1,
-											translateY: 0,
-										}}
-										transition={{
-											type: "spring",
-											stiffness: 200,
-											damping: 20,
-										}}
-									>
-										Confirm
-									</Message>
-								</ConfirmButton>
-							</ButtonContainer>
-						)}
-					</BottomContainer>
-				</Content>
-			</Container>
+							</ConfirmButton>
+						</ButtonContainer>
+					)}
+				</BottomContainer>
+			</Content>
 		</Modal>
 	);
 }

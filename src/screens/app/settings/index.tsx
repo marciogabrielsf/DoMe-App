@@ -8,6 +8,7 @@ import { useAuth } from "@/hooks/useAuth";
 export default function Settings() {
 	const navigator = useNavigation();
 	const auth = useAuth();
+
 	return (
 		<DefaultBackground>
 			<Container>

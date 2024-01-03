@@ -23,8 +23,6 @@ export default function AddPage() {
 	const [isModalVisible, setIsModalVisible] = React.useState(false);
 	const FlatListRef = useRef<FlatList>();
 
-	let insets = useSafeAreaInsets();
-
 	const {
 		messages,
 		sendMessage,
@@ -35,6 +33,8 @@ export default function AddPage() {
 		recordingResult,
 		isRecording,
 	} = useConversation();
+
+	let insets = useSafeAreaInsets();
 
 	const headerHeight = useHeaderHeight();
 

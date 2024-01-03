@@ -5,6 +5,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import * as Haptics from "expo-haptics";
 import Voice from "@react-native-voice/voice";
 import { Message } from "@/interfaces/Message";
+import Toast from "react-native-toast-message";
 
 interface ConversationContextData {
 	messages: Message[];
@@ -12,6 +13,7 @@ interface ConversationContextData {
 	recordingResult: string;
 	isRecording: boolean;
 	startRecording(): Promise<void>;
+	clearChat(): Promise<void>;
 	clearRecording(): Promise<void>;
 	endRecoding(): Promise<void>;
 	sendMessage(message: string): Promise<void>;
@@ -30,8 +32,8 @@ export const ConversationProvider = ({ children }: ConversationProviderProps) =>
 	const [userData, setUserData] = useState<IUserData>({ chat_id: 12345 } as IUserData);
 	const [isRecording, setIsRecording] = useState(false);
 	const [recordingResult, setRecordingResult] = useState("");
-
 	const [isLoading, setIsLoading] = useState(false);
+
 	const { mutateAsync } = useMessage();
 
 	useEffect(() => {
@@ -46,9 +48,14 @@ export const ConversationProvider = ({ children }: ConversationProviderProps) =>
 		loadStoredMessages();
 	}, []);
 
+	let timeout: NodeJS.Timeout = null;
 	useEffect(() => {
 		Voice.onSpeechPartialResults = (e) => {
 			setRecordingResult(e.value[0]);
+			if (timeout) {
+				clearTimeout(timeout);
+			}
+			timeout = setTimeout(endRecoding, 1000);
 		};
 		Voice.onSpeechResults = (e) => {
 			setRecordingResult(e.value[0]);
@@ -56,6 +63,7 @@ export const ConversationProvider = ({ children }: ConversationProviderProps) =>
 		Voice.onSpeechEnd = () => {
 			setIsRecording(false);
 		};
+
 		Voice.onSpeechError = () => {
 			setIsRecording(false);
 		};
@@ -90,6 +98,7 @@ export const ConversationProvider = ({ children }: ConversationProviderProps) =>
 			Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
 		} catch (err) {
 			addMessage(`An error has ocurred:\n${err.message}`, true);
+			Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
 		} finally {
 			setIsLoading(false);
 		}
@@ -115,8 +124,20 @@ export const ConversationProvider = ({ children }: ConversationProviderProps) =>
 
 	const endRecoding = async () => {
 		try {
+			if (timeout) {
+				clearTimeout(timeout);
+			}
 			await Voice.stop();
 			setIsRecording(false);
+		} catch (err) {
+			alert(err);
+		}
+	};
+
+	const clearChat = async () => {
+		try {
+			setMessages([]);
+			AsyncStorage.setItem("messages", JSON.stringify([]));
 		} catch (err) {
 			alert(err);
 		}
@@ -133,6 +154,7 @@ export const ConversationProvider = ({ children }: ConversationProviderProps) =>
 				endRecoding,
 				recordingResult,
 				isRecording,
+				clearChat,
 			}}
 		>
 			{children}
