@@ -14,8 +14,9 @@ export const WarningMessage = styled.Text`
 `;
 
 export const Container = styled.View`
-	margin-top: 15%;
-	height: 100%;
+	margin: 15% 20px 20px 20px;
+	background-color: ${({ theme }) => theme.colors.purple[400]};
+	border-radius: 10px;
 	gap: 15px;
-	padding: 10px;
+	padding: 20px;
 `;

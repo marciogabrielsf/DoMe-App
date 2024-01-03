@@ -1,7 +1,10 @@
 import { AuthContextData } from "@/contexts/auth";
 import theme from "@/themes/theme";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Linking } from "react-native";
 import { Alert } from "react-native";
+
+const CompanyEmail = "gesad@gesad.com";
 
 export const appSettings = [
 	{
@@ -26,6 +29,7 @@ export const appSettings = [
 			{
 				label: "Contact us",
 				icon: <Ionicons name="mail-outline" size={22} color={theme.colors.iconColor} />,
+				action: () => Linking.openURL("mailto:" + CompanyEmail),
 			},
 			{
 				label: "Sign Out",
