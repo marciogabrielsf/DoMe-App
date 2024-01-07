@@ -20,7 +20,7 @@ export const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
 	const [user, setUser] = useState<IUser | null>(null);
-	const [loading, setLoading] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [session, setSession] = useState<Session | null>(null);
 
 	useEffect(() => {
@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
 	const getProfile = async () => {
 		if (!session) return;
-		setLoading(true);
+		setIsLoading(true);
 		try {
 			const { data, error, status } = await supabase
 				.from("profiles")
@@ -64,12 +64,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 		} catch (error) {
 			console.log(error);
 		} finally {
-			setLoading(false);
+			setIsLoading(false);
 		}
 	};
 
 	const signUpWithEmail = async (email: string, password: string, data: object) => {
-		setLoading(true);
+		setIsLoading(true);
 		try {
 			const { error } = await supabase.auth.signUp({
 				email,
@@ -84,36 +84,46 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 			console.log(error);
 			throw error;
 		} finally {
-			setLoading(false);
+			setIsLoading(false);
 		}
 	};
 
 	const signInWithEmail = async (email: string, password: string) => {
-		setLoading(true);
+		setIsLoading(true);
 		const { data, error } = await supabase.auth.signInWithPassword({
 			email,
 			password,
 		});
 		if (error) {
-			setLoading(false);
+			setIsLoading(false);
 			throw error;
 		}
-		setLoading(false);
+		setIsLoading(false);
 	};
 
 	const signOut = async () => {
 		try {
+			setIsLoading(true);
 			await supabase.auth.signOut();
 			AsyncStorage.removeItem("@user");
 			setUser(null);
 		} catch (err) {
 			alert(err.message);
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
 	return (
 		<AuthContext.Provider
-			value={{ signed: !!user, user, signInWithEmail, signOut, loading, signUpWithEmail }}
+			value={{
+				signed: !!user,
+				user,
+				signInWithEmail,
+				signOut,
+				loading: isLoading,
+				signUpWithEmail,
+			}}
 		>
 			{children}
 		</AuthContext.Provider>

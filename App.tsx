@@ -15,6 +15,7 @@ import "react-native-reanimated";
 import "react-native-gesture-handler";
 import DefaultBackground from "@/components/Background";
 import { toastConfig } from "@/themes/toast";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 export default function App() {
 	const [fontsLoaded] = useFonts({
 		"NunitoSans-Black": require("./assets/fonts/NunitoSans-Black.ttf"),
@@ -38,20 +39,22 @@ export default function App() {
 
 	return (
 		<GestureHandlerRootView style={{ flex: 1 }}>
-			<AuthProvider>
-				<ReactQueryProvider>
-					<ConversationProvider>
-						<SafeAreaProvider>
-							<ThemeProvider theme={theme}>
-								<DefaultBackground>
-									<Routes />
-									<Toast config={toastConfig}/>
-								</DefaultBackground>
-							</ThemeProvider>
-						</SafeAreaProvider>
-					</ConversationProvider>
-				</ReactQueryProvider>
-			</AuthProvider>
+			<BottomSheetModalProvider>
+				<AuthProvider>
+					<ReactQueryProvider>
+						<ConversationProvider>
+							<SafeAreaProvider>
+								<ThemeProvider theme={theme}>
+									<DefaultBackground>
+										<Routes />
+										<Toast config={toastConfig} />
+									</DefaultBackground>
+								</ThemeProvider>
+							</SafeAreaProvider>
+						</ConversationProvider>
+					</ReactQueryProvider>
+				</AuthProvider>
+			</BottomSheetModalProvider>
 		</GestureHandlerRootView>
 	);
 }
