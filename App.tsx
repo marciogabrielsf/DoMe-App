@@ -16,6 +16,7 @@ import "react-native-gesture-handler";
 import DefaultBackground from "@/components/Background";
 import { toastConfig } from "@/themes/toast";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+
 export default function App() {
 	const [fontsLoaded] = useFonts({
 		"NunitoSans-Black": require("./assets/fonts/NunitoSans-Black.ttf"),
