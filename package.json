@@ -49,8 +49,7 @@
     "react-native-url-polyfill": "^2.0.0",
     "react-native-use-keyboard-height": "^0.1.1",
     "react-query": "^3.39.3",
-    "styled-components": "^6.0.7",
-    "yarn": "^1.22.21"
+    "styled-components": "^6.0.7"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
